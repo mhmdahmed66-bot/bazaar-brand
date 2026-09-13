@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bazaar Brand — Fashion from the market table</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F6F1E7;
+    --paper:#FFFFFF;
+    --ink:#211C18;
+    --ink-soft:#5B534B;
+    --plum:#6E2A3B;
+    --plum-deep:#4E1D2A;
+    --gold:#B9822F;
+    --sage:#71795A;
+    --line:#E4DACB;
+    --radius-card:2px;
+    --radius-pill:999px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    font-size:16px;
+    line-height:1.5;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    margin:0;
+    color:var(--ink);
+  }
+  a{color:inherit;}
+  img,svg{display:block;}
+  button{font-family:inherit; cursor:pointer;}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 28px;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+  }
+
+  /* ---------- Icon symbols ---------- */
+  .icon-defs{position:absolute; width:0; height:0; overflow:hidden;}
+
+  /* ---------- Announcement ribbon ---------- */
+  .ribbon{
+    background:var(--ink);
+    color:var(--cream);
+    overflow:hidden;
+    white-space:nowrap;
+    border-bottom:1px solid var(--plum-deep);
+  }
+  .ribbon-track{
+    display:inline-flex;
+    gap:56px;
+    padding:9px 0;
+    animation:scroll-left 26s linear infinite;
+  }
+  .ribbon span{
+    font-size:13px;
+    letter-spacing:.02em;
+    color:var(--cream);
+    opacity:.88;
+  }
+  @keyframes scroll-left{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky; top:0; z-index:40;
+    background:var(--cream);
+    border-bottom:1px solid var(--line);
+  }
+  .header-row{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 0;
+  }
+  .wordmark{
+    font-family:'Fraunces', serif;
+    font-size:26px;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    text-decoration:none;
+  }
+  .wordmark em{
+    font-style:italic;
+    color:var(--plum);
+  }
+  nav.main-nav{
+    display:flex; gap:32px;
+  }
+  nav.main-nav a{
+    text-decoration:none;
+    font-size:14.5px;
+    color:var(--ink-soft);
+    padding:6px 0;
+    border-bottom:1px solid transparent;
+    transition:color .15s, border-color .15s;
+  }
+  nav.main-nav a:hover{ color:var(--ink); border-color:var(--gold); }
+
+  .header-actions{ display:flex; align-items:center; gap:18px; }
+  .icon-btn{
+    background:none; border:none; padding:4px; color:var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+  }
+  .icon-btn svg{ width:20px; height:20px; }
+  .cart-count{
+    position:absolute; top:-6px; right:-8px;
+    background:var(--plum); color:#fff;
+    font-size:10.5px; font-weight:600;
+    width:17px; height:17px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:64px 0 72px;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.05fr 0.95fr;
+    gap:64px;
+    align-items:center;
+  }
+  .hero-eyebrow{
+    font-size:14px;
+    color:var(--sage);
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:clamp(38px, 5vw, 58px);
+    line-height:1.04;
+    max-width:11.5ch;
+  }
+  .hero p.lede{
+    margin-top:22px;
+    max-width:42ch;
+    font-size:17px;
+    color:var(--ink-soft);
+  }
+  .hero-ctas{ margin-top:32px; display:flex; gap:14px; flex-wrap:wrap; }
+  .btn{
+    display:inline-block;
+    padding:13px 26px;
+    font-size:14.5px;
+    font-weight:600;
+    border-radius:var(--radius-pill);
+    text-decoration:none;
+    border:1px solid transparent;
+    transition:transform .15s ease, background .15s ease;
+  }
+  .btn-primary{ background:var(--plum); color:#fff; }
+  .btn-primary:hover{ background:var(--plum-deep); }
+  .btn-ghost{ background:transparent; color:var(--ink); border-color:var(--ink); }
+  .btn-ghost:hover{ background:var(--ink); color:var(--cream); }
+
+  /* fabric swatch wall */
+  .swatch-wall{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:16px;
+  }
+  .swatch{
+    aspect-ratio:1/1.1;
+    border-radius:var(--radius-card);
+    display:flex; flex-direction:column; justify-content:space-between;
+    padding:14px;
+    color:#fff;
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:14px;
+    box-shadow:0 10px 24px rgba(33,28,24,.12);
+  }
+  .swatch span{ font-family:'Work Sans', sans-serif; font-style:normal; font-size:11px; opacity:.85; }
+  .swatch:nth-child(1){ background:#8C3A4C; transform:rotate(-3deg); }
+  .swatch:nth-child(2){ background:#C68A2E; transform:rotate(2deg); margin-top:22px;}
+  .swatch:nth-child(3){ background:#5C6647; transform:rotate(-1deg); }
+  .swatch:nth-child(4){ background:#B7A88A; color:#2A2520; transform:rotate(1deg); }
+  .swatch:nth-child(5){ background:#3E2B2E; transform:rotate(-2deg); margin-top:-10px;}
+  .swatch:nth-child(6){ background:#A0522F; transform:rotate(3deg); }
+
+  /* ---------- Category tabs ---------- */
+  .cat-nav{
+    position:sticky; top:73px; z-index:30;
+    background:var(--cream);
+    border-bottom:1px solid var(--line);
+    padding:14px 0;
+  }
+  .cat-tabs{
+    display:flex; gap:10px; overflow-x:auto;
+  }
+  .cat-tabs a{
+    flex:0 0 auto;
+    text-decoration:none;
+    font-size:13.5px;
+    padding:8px 18px;
+    border-radius:var(--radius-pill);
+    border:1px solid var(--line);
+    color:var(--ink-soft);
+    white-space:nowrap;
+    transition:background .15s, color .15s, border-color .15s;
+  }
+  .cat-tabs a:hover, .cat-tabs a.active{
+    background:var(--ink);
+    border-color:var(--ink);
+    color:var(--cream);
+  }
+
+  /* ---------- Sections ---------- */
+  section.category{
+    padding:64px 0 24px;
+    scroll-margin-top:150px;
+  }
+  .section-head{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    margin-bottom:32px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:20px;
+    gap:24px;
+  }
+  .section-head h2{ font-size:30px; }
+  .section-head p{
+    margin:0; color:var(--ink-soft); font-size:14.5px; max-width:38ch;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:26px 22px;
+  }
+
+  .card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    display:flex; flex-direction:column;
+  }
+  .card-visual{
+    position:relative;
+    aspect-ratio:4/5;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .card-visual svg{ width:46%; height:46%; color:rgba(33,28,24,.55); }
+  .badge-sale{
+    position:absolute; top:10px; left:10px;
+    background:var(--plum); color:#fff;
+    font-size:11px; font-weight:600;
+    padding:4px 9px; border-radius:var(--radius-pill);
+  }
+  .card-body{ padding:16px 16px 18px; display:flex; flex-direction:column; gap:6px; flex:1;}
+  .card-detail{ font-size:12.5px; color:var(--sage); }
+  .card-name{ font-size:16px; font-weight:500; }
+  .card-price{ margin-top:2px; font-size:14.5px; display:flex; gap:8px; align-items:baseline; }
+  .price-was{ text-decoration:line-through; color:var(--ink-soft); font-size:13px; }
+  .price-now{ color:var(--plum); font-weight:600; }
+  .add-btn{
+    margin-top:12px;
+    background:transparent;
+    border:1px solid var(--ink);
+    color:var(--ink);
+    font-size:13px; font-weight:600;
+    padding:10px 0;
+    transition:background .15s, color .15s;
+  }
+  .add-btn:hover{ background:var(--ink); color:var(--cream); }
+
+  /* swatch backgrounds cycling for card visuals */
+  .sw-1{ background:#EFE1D8; }
+  .sw-2{ background:#E7E4D3; }
+  .sw-3{ background:#EAD9D0; }
+  .sw-4{ background:#DEE1D0; }
+  .sw-5{ background:#E9DFCB; }
+  .sw-6{ background:#E3D6DB; }
+
+  /* ---------- Trust strip ---------- */
+  .trust{
+    margin:76px 0 0;
+    background:var(--ink);
+    color:var(--cream);
+    padding:40px 0;
+  }
+  .trust-grid{
+    display:grid; grid-template-columns:repeat(4, 1fr); gap:28px;
+  }
+  .trust-item{ display:flex; gap:12px; align-items:flex-start; }
+  .trust-item svg{ width:22px; height:22px; flex:0 0 auto; margin-top:2px; color:var(--gold); }
+  .trust-item h3{ font-size:15px; color:var(--cream); font-family:'Work Sans', sans-serif; font-weight:600; }
+  .trust-item p{ margin:4px 0 0; font-size:13px; color:#C9C2B6; }
+
+  /* ---------- Footer ---------- */
+  footer{ padding:64px 0 32px; }
+  .footer-grid{
+    display:grid;
+    grid-template-columns:1.4fr 1fr 1fr 1.2fr;
+    gap:40px;
+    padding-bottom:40px;
+    border-bottom:1px solid var(--line);
+  }
+  footer h4{ font-size:13.5px; font-weight:600; margin-bottom:16px; }
+  footer ul{ list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px; }
+  footer a{ text-decoration:none; color:var(--ink-soft); font-size:14px; }
+  footer a:hover{ color:var(--ink); }
+  .footer-about p{ color:var(--ink-soft); font-size:14px; max-width:34ch; }
+  .newsletter{ display:flex; margin-top:10px; border:1px solid var(--ink); }
+  .newsletter input{
+    border:none; background:transparent; padding:11px 12px; font-size:13.5px; flex:1; font-family:inherit;
+  }
+  .newsletter input:focus{ outline:none; }
+  .newsletter button{
+    background:var(--ink); color:var(--cream); border:none; padding:0 16px; font-size:13px; font-weight:600;
+  }
+  .bottom-bar{
+    display:flex; justify-content:space-between; align-items:center;
+    padding-top:24px; font-size:12.5px; color:var(--ink-soft); flex-wrap:wrap; gap:12px;
+  }
+
+  /* ---------- Cart drawer ---------- */
+  .overlay{
+    position:fixed; inset:0; background:rgba(33,28,24,.4);
+    opacity:0; pointer-events:none; transition:opacity .2s ease;
+    z-index:49;
+  }
+  .overlay.open{ opacity:1; pointer-events:auto; }
+
+  .drawer{
+    position:fixed; top:0; right:0; height:100%; width:380px; max-width:90vw;
+    background:var(--paper);
+    z-index:50;
+    transform:translateX(100%);
+    transition:transform .25s ease;
+    display:flex; flex-direction:column;
+    box-shadow:-16px 0 40px rgba(0,0,0,.15);
+  }
+  .drawer.open{ transform:translateX(0); }
+  .drawer-head{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:22px 22px 18px; border-bottom:1px solid var(--line);
+  }
+  .drawer-head h3{ font-size:19px; }
+  .drawer-close{ background:none; border:none; font-size:22px; line-height:1; color:var(--ink); }
+  .drawer-items{ flex:1; overflow-y:auto; padding:10px 22px; }
+  .drawer-empty{ color:var(--ink-soft); font-size:14px; padding:24px 0; }
+  .drawer-item{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:14px 0; border-bottom:1px solid var(--line); gap:10px;
+  }
+  .drawer-item-name{ font-size:14px; }
+  .drawer-item-price{ font-size:13.5px; color:var(--ink-soft); }
+  .drawer-item-remove{ background:none; border:none; color:var(--plum); font-size:12.5px; text-decoration:underline; padding:0; }
+  .drawer-foot{ padding:20px 22px 26px; border-top:1px solid var(--line); }
+  .drawer-total{ display:flex; justify-content:space-between; font-size:15px; margin-bottom:16px; font-weight:600; }
+  .drawer-foot .btn{ width:100%; text-align:center; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:980px){
+    .hero-grid{ grid-template-columns:1fr; gap:40px; }
+    .grid{ grid-template-columns:repeat(2, 1fr); }
+    .trust-grid{ grid-template-columns:repeat(2, 1fr); }
+    .footer-grid{ grid-template-columns:1fr 1fr; }
+    nav.main-nav{ display:none; }
+  }
+  @media (max-width:560px){
+    .grid{ grid-template-columns:repeat(2, 1fr); gap:14px; }
+    .footer-grid{ grid-template-columns:1fr; }
+    .swatch-wall{ grid-template-columns:repeat(3, 1fr); }
+    .wrap{ padding:0 18px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= ICON DEFS ================= -->
+<svg class="icon-defs" aria-hidden="true">
+  <symbol id="icon-dress" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path d="M18 8h12l2 6-4 3 5 23H15l5-23-4-3z"/>
+    <path d="M18 8c0 4 2.5 6 6 6s6-2 6-6"/>
+  </symbol>
+  <symbol id="icon-top" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path d="M16 10 8 16l4 5 4-3v22h16V18l4 3 4-5-8-6c-1.5 2-4 3-8 3s-6.5-1-8-3z"/>
+  </symbol>
+  <symbol id="icon-bottom" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path d="M14 8h20l1 12-2 20h-6l-2-18-2 18h-6l-2-20z"/>
+  </symbol>
+  <symbol id="icon-outerwear" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path d="M17 9 8 14l3 6 5-3v22h16V17l5 3 3-6-9-5c-1.5 2-3.5 3-7 3s-5.5-1-7-3z"/>
+    <path d="M20 15v24M28 15v24"/>
+  </symbol>
+  <symbol id="icon-shoe" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path d="M6 32c0-3 2-5 5-6l9-4c2-3 5-5 9-5 5 0 8 3 9 7l3 1c3 1 5 3 5 7H6z"/>
+    <path d="M20 22c2 3 6 5 12 5"/>
+  </symbol>
+  <symbol id="icon-bag" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+    <rect x="9" y="16" width="30" height="24" rx="1"/>
+    <path d="M16 16v-3a8 8 0 0 1 16 0v3"/>
+  </symbol>
+  <symbol id="icon-accessory" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+    <circle cx="24" cy="24" r="12"/>
+    <circle cx="24" cy="24" r="4"/>
+  </symbol>
+
+  <symbol id="icon-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+    <circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.4-4.4"/>
+  </symbol>
+  <symbol id="icon-bag-small" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+    <rect x="4" y="8" width="16" height="12" rx="1"/><path d="M8 8V6a4 4 0 0 1 8 0v2"/>
+  </symbol>
+  <symbol id="icon-truck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+    <rect x="2" y="7" width="12" height="9"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17.5" cy="18" r="1.8"/>
+  </symbol>
+  <symbol id="icon-return" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+    <path d="M4 12a8 8 0 1 0 3-6.2"/><path d="M4 4v5h5"/>
+  </symbol>
+  <symbol id="icon-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+    <rect x="5" y="11" width="14" height="9" rx="1"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>
+  </symbol>
+  <symbol id="icon-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+    <path d="M5 19c8 0 14-6 14-14-8 0-14 6-14 14Z"/><path d="M5 19c2-4 5-7 9-9"/>
+  </symbol>
+</svg>
+
+<!-- ================= RIBBON ================= -->
+<div class="ribbon">
+  <div class="ribbon-track" aria-hidden="true">
+    <span>New markdowns — up to 40% off select styles</span>
+    <span>Free shipping over $75</span>
+    <span>New season arrivals every Friday</span>
+    <span>New markdowns — up to 40% off select styles</span>
+    <span>Free shipping over $75</span>
+    <span>New season arrivals every Friday</span>
+  </div>
+</div>
+
+<!-- ================= HEADER ================= -->
+<header>
+  <div class="wrap header-row">
+    <a href="#top" class="wordmark">Bazaar <em>Brand</em></a>
+    <nav class="main-nav">
+      <a href="#women">Women</a>
+      <a href="#men">Men</a>
+      <a href="#shoes">Shoes</a>
+      <a href="#accessories">Accessories</a>
+      <a href="#sale">Sale</a>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn" aria-label="Search"><svg><use href="#icon-search"/></svg></button>
+      <button class="icon-btn" id="cartOpen" aria-label="Open cart">
+        <svg><use href="#icon-bag-small"/></svg>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<div id="top"></div>
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="hero-eyebrow">Fashion &amp; footwear, gathered from the market table</p>
+      <h1>Every good find starts with a walk through the bazaar.</h1>
+      <p class="lede">Bazaar Brand brings together apparel and shoes worth stopping for — everyday pieces with a bit of character, priced so the whole trip is worth it.</p>
+      <div class="hero-ctas">
+        <a href="#women" class="btn btn-primary">Browse the catalog</a>
+        <a href="#sale" class="btn btn-ghost">Shop the markdowns</a>
+      </div>
+    </div>
+    <div class="swatch-wall" aria-hidden="true">
+      <div class="swatch">Plum<span>Wrap dresses</span></div>
+      <div class="swatch">Saffron<span>Knitwear</span></div>
+      <div class="swatch">Olive<span>Outerwear</span></div>
+      <div class="swatch">Bone<span>Linen</span></div>
+      <div class="swatch">Espresso<span>Leather</span></div>
+      <div class="swatch">Clay<span>Footwear</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CATEGORY NAV ================= -->
+<div class="cat-nav">
+  <div class="wrap cat-tabs">
+    <a href="#women">Women</a>
+    <a href="#men">Men</a>
+    <a href="#shoes">Shoes</a>
+    <a href="#accessories">Accessories</a>
+    <a href="#sale">Sale</a>
+  </div>
+</div>
+
+<!-- ================= WOMEN ================= -->
+<section class="category" id="women">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Women</h2>
+      <p>Dresses, knitwear and outerwear built around fabrics that move.</p>
+    </div>
+    <div class="grid">
+
+      <article class="card">
+        <div class="card-visual sw-1"><span class="badge-sale">Sale</span><svg><use href="#icon-dress"/></svg></div>
+        <div class="card-body">
+          <p class="card-detail">Hand-dyed indigo cotton</p>
+          <h3 class="card-name">Indigo Wrap Dress</h3>
+          <p class="card-price"><span class="price-now">$89</span><span class="price-was">$128</span></p>
+          <button class="add-btn" data-name="Indigo Wrap Dress" data-price="89">Add to cart</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-visual sw-3"><svg><use href="#icon-top"/></svg></div>
+        <div class="card-body">
+          <p class="card-detail">Washed silk, relaxed fit</p>
+          <h3 class="card-name">Saffron Silk Blouse</h3>
+          <p class="card-price"><span class="price-now">$96</span></p>
+          <button class="add-btn" data-name="Saffron Silk Blouse" data-price="96">Add to cart</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-visual sw-4"><svg><use href="#icon-bottom"/></svg></div>
+        <div class="card-body">
+          <p class="card-detail">Heavyweight European linen</p>
+          <h3 class="card-name">Market Linen Trousers</h3>
+          <p class="card-price"><span class="price-now">$84</span></p>
+          <button class="add-btn" data-name="Market Linen Trousers" data-price="84">Add to cart</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-visual sw-2"><span class="badge-sale">Sale</span><svg><use href="#icon-outerwear"/></svg></div>
+        <div class="card-body">
+          <p class="card-detail">Brushed wool blend</p>
+          <h3 class="card-name">Caravan Duster Coat</h3>
+          <p class="card-price"><span class="price-now">$159</span><span class="price-was">$210</span></p>
+          <button class="add-btn" data-name="Caravan Duster Coat" data-price="159">Add to cart</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-visual sw-5"><svg><use href="#icon-top"/></svg></div>
+        <div class="card-body">
+          <p class="card-detail">Merino, hand-loomed rib</p>
+          <h3 class="card-name">Loomcraft Knit Sweater</h3>
+          <p class="card-price"><span class="price-now">$92</span></p>
+          <button class="add-btn" data-name="Loomcraft Knit Sweater" data-price="92">Add to cart</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-visual sw-6"><svg><use href="#icon-bottom"/></svg></div>
+        <div class="card-body">
+          <p class="card-detail">Brushed cotton twill, A-line</p>
+          <h3 class="card-name">Terracotta Midi Skirt</h3>
+          <p class="card-price"><span class="price-now">$78</span></p>
+          <button class="add-btn" data-name="Terracotta Midi Skirt" data-price="78">Add to cart</button>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= MEN ================= -->
+<section class="category" id="men">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Men</h2>
+      <p>Shirting, knitwear and outerwear for a slower kind of week.</p>
+    </div>
+    <div class="grid">
+
+      <article class="card">
+        <div class="card-visual sw-2"><svg><use href="#icon-top"/></svg></div>
+        <div class="card-body">
+          <p class="card-detail">Garment-dyed cotton twill</p>
+          <h3 class="card-name">Spice Route Overshirt</h3>
+          <p class="card-price"><span class="price-now">$118</span></p>
+          <button class="add-btn" data-name="Spice Route Overshirt" data-price="118">Add to cart</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-visual sw-1"><svg><use href="#icon-top"/></svg></div>
+        <div class="card-body">
+          <p class="card-detail">Cool-handle linen</p>
+          <h3 class="card-name">Cobalt Linen Shirt</h3>
+          <p class="card-price"><span class="price-now">$76</span></p>
+          <button class="add-btn" data-name="Cobalt Linen Shirt" data-price="76">Add to cart</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-visual sw-4"><svg><use href="#icon-bottom"/></svg></div>
+        <div class="card-body">
+          <p class="card-detail">Mid-weight cotton, tapered</p>
+          <h3 class="card-name">Market Chino</h3>
+          <p class="card-price"><span class="price-now">$89</span></p>
+          <button class="add-btn" data-name="Market Chino" data-price="89">Add to cart</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-visual sw-3"><span class="badge-sale">Sale</span><svg><use href="#icon-outerwear"/></svg></div>
+        <div class="card-body">
+          <p class="card-detail">Water-resistant shell</p>
+          <h3 class="card-name">Caravan Bomber Jacket</h3>
+          <p class="card-price"><span class="price-now">$149</span><span class="price-was">$195</span></p>
+          <button class="add-btn" data-name="Caravan Bomber Jacket" data-price="149">Add to cart</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-visual sw-5"><svg><use href="#icon-top"/></svg></div>
+        <div class="card-body">
+          <p class="card-detail">Lambswool, crew neck</p>
+          <h3 class="card-name">Loom Crew Sweater</h3>
+          <p class="card-price"><span class="price-now">$85</span></p>
+          <button class="add-btn" data-name="Loom Crew Sweater" data-price="85">Add to cart</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-visual sw-6"><svg><use href="#icon-bottom"/></svg></div>
+        <div class="card-body">
+          <p class="card-detail">Ripstop cotton, six pocket</p>
+          <h3 class="card-name">Desert Cargo Pant</h3>
+          <p class="card-price"><span class="price-now">$98</span></p>
+          <button class="add-btn" data-name="Desert Cargo Pant" data-price="98">Add to cart</button>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= SHOES ================= -->
+<section class="category" id="shoes">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Shoes</h2>
+      <p>Leather, canvas and suede — built for cobblestones and pavement alike.</p>
+    </div>
+    <div class="grid">
+
+      <article class="card">
+        <div class="card-visual sw-3"><svg><use href="#icon-shoe"/></svg></div>
+        <div class="card-body">
+          <p class="card-detail">Full-grain leather</p>
+          <h3 class="card-name">Cobblestone Loafer</h3>
+          <p class="card-price"><span class="price-now">$145</span></p>
+          <button class="add-btn" data-name="Cobblestone Loafer" data-price="145">Add to cart</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-visual sw-1"><span class="badge-sale">Sale</span><svg><use href="#icon-shoe"/></svg></div>
+        <div class="card-body">
+          <p class="card-detail">Washed canvas, rubber sole</p>
+          <h3 class="card-name">Bazaar Canvas Sneaker</h3>
+          <p class="card-price"><span class="price-now">$59</span><span class="price-was">$79</span></p>
+          <button class="add-btn" data-name="Bazaar Canvas Sneaker" data-price="59">Add to cart</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-visual sw-5"><svg><use href="#icon-shoe"/></svg></div>
+        <div class="card-body">
+          <p class="card-detail">Oiled suede, shearling lined</p>
+          <h3 class="card-name">Dune Suede Boot</h3>
+          <p class="card-price"><span class="price-now">$168</span></p>
+          <button class="add-btn" data-name="Dune Suede Boot" data-price="168">Add to cart</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-visual sw-4"><svg><use href="#icon-shoe"/></svg></div>
+        <div class="card-body">
+          <p class="card-detail">Woven leather straps</p>
+          <h3 class="card-name">Market Day Sandal</h3>
+          <p class="card-price"><span class="price-now">$62</span></p>
+          <button class="add-btn" data-name="Market Day Sandal" data-price="62">Add to cart</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-visual sw-6"><svg><use href="#icon-shoe"/></svg></div>
+        <div class="card-body">
+          <p class="card-detail">Jute sole, canvas upper</p>
+          <h3 class="card-name">Saffron Espadrille</h3>
+          <p class="card-price"><span class="price-now">$58</span></p>
+          <button class="add-btn" data-name="Saffron Espadrille" data-price="58">Add to cart</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-visual sw-2"><svg><use href="#icon-shoe"/></svg></div>
+        <div class="card-body">
+          <p class="card-detail">Waxed nubuck, lugged sole</p>
+          <h3 class="card-name">Caravan Trail Boot</h3>
+          <p class="card-price"><span class="price-now">$172</span></p>
+          <button class="add-btn" data-name="Caravan Trail Boot" data-price="172">Add to cart</button>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= ACCESSORIES ================= -->
+<section class="category" id="accessories">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Accessories</h2>
+      <p>The last things you pack, and the first thing people notice.</p>
+    </div>
+    <div class="grid">
+
+      <article class="card">
+        <div class="card-visual sw-4"><svg><use href="#icon-bag"/></svg></div>
+        <div class="card-body">
+          <p class="card-detail">Hand-woven raffia</p>
+          <h3 class="card-name">Woven Straw Tote</h3>
+          <p class="card-price"><span class="price-now">$68</span></p>
+          <button class="add-btn" data-name="Woven Straw Tote" data-price="68">Add to cart</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-visual sw-1"><svg><use href="#icon-accessory"/></svg></div>
+        <div class="card-body">
+          <p class="card-detail">100% mulberry silk</p>
+          <h3 class="card-name">Indigo Silk Scarf</h3>
+          <p class="card-price"><span class="price-now">$42</span></p>
+          <button class="add-btn" data-name="Indigo Silk Scarf" data-price="42">Add to cart</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-visual sw-5"><svg><use href="#icon-accessory"/></svg></div>
+        <div class="card-body">
+          <p class="card-detail">Vegetable-tanned leather</p>
+          <h3 class="card-name">Market Leather Belt</h3>
+          <p class="card-price"><span class="price-now">$54</span></p>
+          <button class="add-btn" data-name="Market Leather Belt" data-price="54">Add to cart</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-visual sw-3"><span class="badge-sale">Sale</span><svg><use href="#icon-bag"/></svg></div>
+        <div class="card-body">
+          <p class="card-detail">Waxed canvas, adjustable strap</p>
+          <h3 class="card-name">Bazaar Canvas Crossbody</h3>
+          <p class="card-price"><span class="price-now">$65</span><span class="price-was">$88</span></p>
+          <button class="add-btn" data-name="Bazaar Canvas Crossbody" data-price="65">Add to cart</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-visual sw-6"><svg><use href="#icon-accessory"/></svg></div>
+        <div class="card-body">
+          <p class="card-detail">Brass and glass bead</p>
+          <h3 class="card-name">Saffron Beaded Necklace</h3>
+          <p class="card-price"><span class="price-now">$36</span></p>
+          <button class="add-btn" data-name="Saffron Beaded Necklace" data-price="36">Add to cart</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-visual sw-2"><svg><use href="#icon-accessory"/></svg></div>
+        <div class="card-body">
+          <p class="card-detail">Acetate frame, UV400</p>
+          <h3 class="card-name">Caravan Sunglasses</h3>
+          <p class="card-price"><span class="price-now">$72</span></p>
+          <button class="add-btn" data-name="Caravan Sunglasses" data-price="72">Add to cart</button>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= SALE (aggregated) ================= -->
+<section class="category" id="sale">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Markdowns</h2>
+      <p>This week's reductions, pulled from every corner of the bazaar.</p>
+    </div>
+    <div class="grid">
+
+      <article class="card">
+        <div class="card-visual sw-1"><span class="badge-sale">Sale</span><svg><use href="#icon-dress"/></svg></div>
+        <div class="card-body">
+          <p class="card-detail">Hand-dyed indigo cotton</p>
+          <h3 class="card-name">Indigo Wrap Dress</h3>
+          <p class="card-price"><span class="price-now">$89</span><span class="price-was">$128</span></p>
+          <button class="add-btn" data-name="Indigo Wrap Dress" data-price="89">Add to cart</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-visual sw-2"><span class="badge-sale">Sale</span><svg><use href="#icon-outerwear"/></svg></div>
+        <div class="card-body">
+          <p class="card-detail">Brushed wool blend</p>
+          <h3 class="card-name">Caravan Duster Coat</h3>
+          <p class="card-price"><span class="price-now">$159</span><span class="price-was">$210</span></p>
+          <button class="add-btn" data-name="Caravan Duster Coat" data-price="159">Add to cart</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-visual sw-3"><span class="badge-sale">Sale</span><svg><use href="#icon-outerwear"/></svg></div>
+        <div class="card-body">
+          <p class="card-detail">Water-resistant shell</p>
+          <h3 class="card-name">Caravan Bomber Jacket</h3>
+          <p class="card-price"><span class="price-now">$149</span><span class="price-was">$195</span></p>
+          <button class="add-btn" data-name="Caravan Bomber Jacket" data-price="149">Add to cart</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-visual sw-1"><span class="badge-sale">Sale</span><svg><use href="#icon-shoe"/></svg></div>
+        <div class="card-body">
+          <p class="card-detail">Washed canvas, rubber sole</p>
+          <h3 class="card-name">Bazaar Canvas Sneaker</h3>
+          <p class="card-price"><span class="price-now">$59</span><span class="price-was">$79</span></p>
+          <button class="add-btn" data-name="Bazaar Canvas Sneaker" data-price="59">Add to cart</button>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= TRUST STRIP ================= -->
+<div class="trust">
+  <div class="wrap trust-grid">
+    <div class="trust-item">
+      <svg><use href="#icon-truck"/></svg>
+      <div><h3>Free shipping</h3><p>On every order over $75</p></div>
+    </div>
+    <div class="trust-item">
+      <svg><use href="#icon-return"/></svg>
+      <div><h3>14-day returns</h3><p>No questions, no restocking fee</p></div>
+    </div>
+    <div class="trust-item">
+      <svg><use href="#icon-lock"/></svg>
+      <div><h3>Secure checkout</h3><p>Encrypted payments, every time</p></div>
+    </div>
+    <div class="trust-item">
+      <svg><use href="#icon-leaf"/></svg>
+      <div><h3>Responsibly sourced</h3><p>Traceable fabrics and factories</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <a href="#top" class="wordmark">Bazaar <em>Brand</em></a>
+        <p>Apparel and footwear gathered from the market table — everyday pieces with a bit of character.</p>
+      </div>
+      <div>
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="#women">Women</a></li>
+          <li><a href="#men">Men</a></li>
+          <li><a href="#shoes">Shoes</a></li>
+          <li><a href="#accessories">Accessories</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Help</h4>
+        <ul>
+          <li><a href="#">Shipping &amp; returns</a></li>
+          <li><a href="#">Size guide</a></li>
+          <li><a href="#">Contact us</a></li>
+          <li><a href="#">Store locator</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Stay in the loop</h4>
+        <p style="font-size:14px;color:var(--ink-soft);margin:0 0 4px;">New arrivals and markdowns, once a week.</p>
+        <form class="newsletter" onsubmit="event.preventDefault(); this.reset(); this.querySelector('button').textContent='Subscribed';">
+          <input type="email" placeholder="Email address" required>
+          <button type="submit">Sign up</button>
+        </form>
+      </div>
+    </div>
+    <div class="bottom-bar">
+      <span>© 2026 Bazaar Brand. All rights reserved.</span>
+      <span>Privacy policy · Terms of service</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ================= CART DRAWER ================= -->
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-label="Shopping cart">
+  <div class="drawer-head">
+    <h3>Your bag</h3>
+    <button class="drawer-close" id="drawerClose" aria-label="Close cart">&times;</button>
+  </div>
+  <div class="drawer-items" id="drawerItems">
+    <p class="drawer-empty">Your bag is empty — start adding a few finds.</p>
+  </div>
+  <div class="drawer-foot">
+    <div class="drawer-total"><span>Subtotal</span><span id="drawerTotal">$0</span></div>
+    <a href="#" class="btn btn-primary" onclick="alert('This is a demo storefront — checkout isn\'t connected yet.'); return false;">Checkout</a>
+  </div>
+</aside>
+
+<script>
+  const cart = [];
+  const cartCountEl = document.getElementById('cartCount');
+  const drawerItemsEl = document.getElementById('drawerItems');
+  const drawerTotalEl = document.getElementById('drawerTotal');
+  const drawer = document.getElementById('drawer');
+  const overlay = document.getElementById('overlay');
+
+  function openDrawer(){ drawer.classList.add('open'); overlay.classList.add('open'); }
+  function closeDrawer(){ drawer.classList.remove('open'); overlay.classList.remove('open'); }
+
+  document.getElementById('cartOpen').addEventListener('click', openDrawer);
+  document.getElementById('drawerClose').addEventListener('click', closeDrawer);
+  overlay.addEventListener('click', closeDrawer);
+
+  function renderDrawer(){
+    cartCountEl.textContent = cart.length;
+    if(cart.length === 0){
+      drawerItemsEl.innerHTML = '<p class="drawer-empty">Your bag is empty — start adding a few finds.</p>';
+      drawerTotalEl.textContent = '$0';
+      return;
+    }
+    drawerItemsEl.innerHTML = cart.map((item, i) => `
+      <div class="drawer-item">
+        <div>
+          <div class="drawer-item-name">${item.name}</div>
+          <button class="drawer-item-remove" data-index="${i}">Remove</button>
+        </div>
+        <div class="drawer-item-price">$${item.price}</div>
+      </div>
+    `).join('');
+    const total = cart.reduce((sum, item) => sum + item.price, 0);
+    drawerTotalEl.textContent = '$' + total;
+
+    drawerItemsEl.querySelectorAll('.drawer-item-remove').forEach(btn => {
+      btn.addEventListener('click', () => {
+        cart.splice(Number(btn.dataset.index), 1);
+        renderDrawer();
+      });
+    });
+  }
+
+  document.querySelectorAll('.add-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      cart.push({ name: btn.dataset.name, price: Number(btn.dataset.price) });
+      renderDrawer();
+      openDrawer();
+    });
+  });
+
+  // active state on category tabs while scrolling
+  const tabLinks = document.querySelectorAll('.cat-tabs a');
+  const sections = ['women','men','shoes','accessories','sale'].map(id => document.getElementById(id));
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        tabLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  sections.forEach(s => s && io.observe(s));
+</script>
+
+</body>
+</html>
